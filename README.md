@@ -13,7 +13,7 @@ Ref: https://www.digitalocean.com/community/tutorials/how-to-set-up-wireguard-on
 ## Setup
 
 Update the WireGuard config files `client/wg_qs.conf`, `client/wg_vpn.conf`, `proxy/wg0.conf`
-with the correct keys.
+with the correct keys and IP addresses.
 
 Copy `client/wg_qs.conf` and `client/wg_vpn.conf` to `/etc/wireguard` in the client machine.
 
