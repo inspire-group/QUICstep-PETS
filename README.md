@@ -24,14 +24,14 @@ Run `wg-quick up wg0` in the proxy machine.
 In the client machine, run the following to set up QUICstep.
 
 ```
-bash client/takedown.sh
+sudo bash client/takedown.sh
 wg-quick up wg_qs
 ```
 
 Run the following to take down QUICstep.
 
 ```
-bash client/setup.sh
+sudo bash client/setup.sh
 wg-quick down wg_qs
 ```
 
