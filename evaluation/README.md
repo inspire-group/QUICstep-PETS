@@ -7,7 +7,8 @@ Refer to the Playing with QUIC[^1] page and the Chromium source code[^4] page fo
 # Performance measurements
 
 `performance.py` uses Selenium driven by Chrome to access a given website
-and retrieve the time to first byte (`responseStart - navigationStart`) and page load time (`domComplete - responseStart`).
+and retrieve the time to first byte (`responseStart - navigationStart`) and page load time (`domComplete - responseStart`) with different network settings (native connection, full WireGuard, QUICstep).
+The machine must have QUICstep set up as the client and have access to a QUICstep proxy.
 Google Chrome and Python 3.7+ must be installed on the system.
 
 [^1]: https://www.chromium.org/quic/playing-with-quic
