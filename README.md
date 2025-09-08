@@ -1,19 +1,47 @@
-# QUICstep
+# Artifact Appendix
 
-QUICstep circumvents QUIC SNI censorship by selectively routing
-QUIC Initial and Handshake packets over a secure *handshake channel*[^1].
-This implementation uses a WireGuard channel as a handshake channel.
+Paper title: **Evaluating connection migration based QUIC censorship circumvention**
 
-## Requirements
+Requested Badge(s):
+  - [x] **Available**
+  - [ ] **Functional**
+  - [ ] **Reproduced**
 
+While this template is provided for artifact review, you should write your
+instructions for someone trying to reuse your artifact in the future (i.e., not
+an artifact reviewer).
+
+## Description
+
+This artifact contains the source code for **Evaluating connection migraton based QUIC censorship circumvention** (*Seungju Lee, Mona Wang, Watson Jia, Mingshi Wu, Henry Birge-Lee, Liang Wang, and Prateek Mittal*, PoPETS 2026).
+QUICstep circumvents QUIC SNI censorship by selectively routing QUIC Initial and Handshake packets over a secure *handshake channel*[^1].
+This repo contains an implementation using a WireGuard channel as a handshake channel.
+
+### Security/Privacy Issues and Ethical Concerns
+
+QUICstep, being a censorship circumvention tool, carries fundamental security risks for users when accessing censored domains.
+In our experiments with real-world censors we used a client machine under our control hosted at a large-scale commercial VPS provider with a dedicated IP address to avoid harming real users, and accessed only a limited number of real-world domains to avoid the client machine itself being blocked.
+
+## Environment
+
+### Accessibility 
+
+Our artifact is accessible at 
+
+### Requirements
+
+QUICstep requires two machines; a client machine and a proxy machine.
+We used AWS EC2 Ubuntu 22.04 instances as clients and AWS Lightsail Debian 11 instances as proxies.
+While our implementation of QUICstep can run on minimal hardware (1 GB RAM, 40 GB SSD), performance measurements require greater resources.
+See `evaluation/README.md` for details.
+Be sure to allow ingress UDP traffic on port 51820 for both machines.
 Install WireGuard and generate key pairs for both the client and proxy machines.
 
 Ref: https://www.digitalocean.com/community/tutorials/how-to-set-up-wireguard-on-ubuntu-22-04
 
-## Setup
+### Setup
 
-Update the WireGuard config files `client/wg_qs.conf`, `client/wg_vpn.conf`, `proxy/wg0.conf`
-with the correct keys and IP addresses.
+Update the WireGuard config files `client/wg_qs.conf`, `client/wg_vpn.conf`, `proxy/wg0.conf` with the correct keys and IP addresses.
 
 Copy `client/wg_qs.conf` and `client/wg_vpn.conf` to `/etc/wireguard` in the client machine.
 
@@ -28,6 +56,8 @@ sudo bash client/takedown.sh
 wg-quick up wg_qs
 ```
 
+Run `sudo wg` to check that the WireGuard handshake has successfully completed.
+
 Run the following to take down QUICstep.
 
 ```
@@ -37,5 +67,9 @@ wg-quick down wg_qs
 
 For the VPN connection, use `wg_vpn` instead of `wg_qs`.
 
-[^1]: Any secure, blocking resistant but potentially high-latency channel
-(e.g. public VPN, DNS tunnel).
+## Notes on Reusability
+
+We would like to emphasize that the idea of QUICstep is not constrained to a particular handshake channel; while we chose WireGuard for our implementation, any secure blocking resistant channel that the client can access for every connection can be a handshake channel.
+We encourage other researchers to create implementations of QUICstep with other secure channels.
+
+[^1]: Any secure, blocking resistant but potentially high-latency channel (e.g. VPN)

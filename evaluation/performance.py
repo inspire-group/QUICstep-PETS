@@ -13,11 +13,11 @@ import sys
 if len(sys.argv) < 3:
     exit
 else:
-    proxy = sys.argv[1]
-    NUM_REQUESTS = int(sys.argv[2])
+    NUM_REQUESTS = int(sys.argv[1])
+    domain = sys.argv[2]
 
 # get latency (ms) for requesting the desired server file
-def get_latency_ms():
+def get_latency_ms(domain):
     opt = Options()
     opt.add_argument('--headless')
     opt.add_argument('--no-sandbox')
@@ -25,7 +25,7 @@ def get_latency_ms():
     opt.add_argument('--enable-quic')
     opt.add_argument('--origin-to-force-quic-on=*')
     driver = webdriver.Chrome(options=opt, service=Service(ChromeDriverManager().install()))
-    driver.get("https://www.google.com")
+    driver.get(domain)
 
     navigationStart = driver.execute_script("return window.performance.timing.navigationStart")
     responseStart = driver.execute_script("return window.performance.timing.responseStart")
@@ -75,15 +75,15 @@ if __name__ == '__main__':
     subprocess.run(['sudo', 'bash', 'setup.sh'])
   
     for i in range(NUM_REQUESTS):
-        subprocess.run(['wg-quick', 'up', f'wg_qs_{proxy}'])
-        append_two(quicstep_firstbyte, quicstep_loadtime, get_latency_ms())
-        subprocess.run(['wg-quick', 'down', f'wg_qs_{proxy}'])
+        subprocess.run(['wg-quick', 'up', f'wg_qs'])
+        append_two(quicstep_firstbyte, quicstep_loadtime, get_latency_ms(domain))
+        subprocess.run(['wg-quick', 'down', f'wg_qs'])
 
-        subprocess.run(['wg-quick', 'up', f'wg_vpn_{proxy}'])
-        append_two(vpn_firstbyte, vpn_loadtime, get_latency_ms())
-        subprocess.run(['wg-quick', 'down', f'wg_vpn_{proxy}'])
+        subprocess.run(['wg-quick', 'up', f'wg_vpn'])
+        append_two(vpn_firstbyte, vpn_loadtime, get_latency_ms(domain))
+        subprocess.run(['wg-quick', 'down', f'wg_vpn'])
 
-        append_two(naive_firstbyte, naive_loadtime, get_latency_ms())
+        append_two(naive_firstbyte, naive_loadtime, get_latency_ms(domain))
 
     subprocess.run(['sudo', 'bash', 'takedown.sh'])
 
@@ -101,13 +101,15 @@ if __name__ == '__main__':
         naive_latency = np.array(naive_latency)
         quicstep_latency = np.array(quicstep_latency)
 
-        filename_vpn = 'sel_results/csv/' + proxy + '_' + x +'_vpn.csv'
-        filename_naive = 'sel_results/csv/' + proxy + '_' + x +'_naive.csv'
-        filename_quicstep = 'sel_results/csv/' + proxy + '_' + x +'_quicstep.csv'
+        domain_filename = domain.replace('.', '')
+
+        filename_vpn = f'{x}_vpn.csv'
+        filename_naive = f'{x}_naive.csv'
+        filename_quicstep = f'{x}_quicstep.csv'
 
         np.savetxt(filename_vpn, vpn_latency, fmt="%f", delimiter=",")
         np.savetxt(filename_naive, naive_latency, fmt="%f", delimiter=",")
         np.savetxt(filename_quicstep, quicstep_latency, fmt="%f", delimiter=",")
         
-        filename = 'sel_results/cdf_' + proxy + '_' + x + '.jpg'
+        filename = f'{x}.jpg'
         draw_cdf(vpn_latency, naive_latency, quicstep_latency, 50, filename)

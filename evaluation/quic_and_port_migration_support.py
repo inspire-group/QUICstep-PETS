@@ -20,6 +20,8 @@ if len(sys.argv) > 1:
 else:
     date = str(date.today())
     latest_list = t.list()
+ofname = f'tranco_{date}.csv'
+otxt = f'output_port_{date}.txt'
 
 def test_h3(row):
 
@@ -88,7 +90,7 @@ def test_h3(row):
 
     line = f'{line}\t{h3}\t{cm}\t{ip}\t{asn}'
     print(line, flush = True)
-    append = open('output.txt', 'a')
+    append = open(otxt, 'a')
     append.write(f'{line}\n')
     append.close()
 
@@ -97,8 +99,6 @@ def test_h3(row):
 if __name__ == '__main__':
 
     start = datetime.now()
-    ofname = f'tranco_{date}.csv'
-    otxt = f'output_port_{date}.txt'
 
     latest_list = {'index': range(1, 1000001), 'domain': latest_list.top(1000000)}
     df = pd.DataFrame(latest_list)
@@ -130,7 +130,7 @@ if __name__ == '__main__':
         writer = csv.writer(f)
         writer.writerow([date, quic, cm])
 
-    df_output.to_csv(f'output_union_port_{date}.csv'), index = False)
+    df_output.to_csv(f'output_union_port_{date}.csv', index = False)
 
     end = datetime.now()
     print(end - start)
