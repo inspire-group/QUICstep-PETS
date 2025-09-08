@@ -7,10 +7,6 @@ Requested Badge(s):
   - [ ] **Functional**
   - [ ] **Reproduced**
 
-While this template is provided for artifact review, you should write your
-instructions for someone trying to reuse your artifact in the future (i.e., not
-an artifact reviewer).
-
 ## Description
 
 This artifact contains the source code for **Evaluating connection migraton based QUIC censorship circumvention** (*Seungju Lee, Mona Wang, Watson Jia, Mingshi Wu, Henry Birge-Lee, Liang Wang, and Prateek Mittal*, PoPETS 2026).
