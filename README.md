@@ -1,4 +1,4 @@
-# Artifact Appendix
+# QUICstep
 
 Paper title: **Evaluating connection migration based QUIC censorship circumvention**
 
