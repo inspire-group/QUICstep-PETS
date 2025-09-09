@@ -22,7 +22,7 @@ In our experiments with real-world censors we used a client machine under our co
 
 ### Accessibility 
 
-Our artifacts are accessible at https://github.com/inspire-group/QUICstep.
+Our artifacts are accessible at https://github.com/inspire-group/QUICstep-PETS.
 
 ### Requirements
 
