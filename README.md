@@ -1,6 +1,6 @@
 # QUICstep
 
-Paper title: **Evaluating connection migration based QUIC censorship circumvention**
+Paper title: **QUICstep: Evaluating connection migration based QUIC censorship circumvention**
 
 Requested Badge(s):
   - [x] **Available**
@@ -9,7 +9,7 @@ Requested Badge(s):
 
 ## Description
 
-This artifact contains the source code for **Evaluating connection migraton based QUIC censorship circumvention** (*Seungju Lee, Mona Wang, Watson Jia, Mingshi Wu, Henry Birge-Lee, Liang Wang, and Prateek Mittal*, PoPETS 2026).
+This artifact contains the source code for **QUICstep: Evaluating connection migraton based QUIC censorship circumvention** (*Seungju Lee, Mona Wang, Watson Jia, Mingshi Wu, Henry Birge-Lee, Liang Wang, and Prateek Mittal*, PoPETS 2026).
 QUICstep circumvents QUIC SNI censorship by selectively routing QUIC Initial and Handshake packets over a secure *handshake channel*[^1].
 This repo contains an implementation using a WireGuard channel as a handshake channel.
 
@@ -22,7 +22,7 @@ In our experiments with real-world censors we used a client machine under our co
 
 ### Accessibility 
 
-Our artifact is accessible at 
+Our artifacts are accessible at https://github.com/inspire-group/QUICstep.
 
 ### Requirements
 
@@ -66,6 +66,7 @@ For the VPN connection, use `wg_vpn` instead of `wg_qs`.
 ## Notes on Reusability
 
 We would like to emphasize that the idea of QUICstep is not constrained to a particular handshake channel; while we chose WireGuard for our implementation, any secure blocking resistant channel that the client can access for every connection can be a handshake channel.
+Our implementation in particular can be altered to support handshake channels that provide a virtual network interface.
 We encourage other researchers to create implementations of QUICstep with other secure channels.
 
 [^1]: Any secure, blocking resistant but potentially high-latency channel (e.g. VPN)
